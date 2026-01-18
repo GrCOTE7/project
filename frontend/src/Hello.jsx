@@ -1,26 +1,22 @@
-import React, { useState } from "react";
-import { useServerReload } from "./hooks/useServerReload";
+import React, { useEffect, useState } from "react";
 
 const HelloWorld = () => {
   const [message, setMessage] = useState("");
 
-  const fetchMessage = async () => {
-    try {
-      const response = await fetch("/api/hello");
-      const data = await response.json();
-      setMessage(data.message);
-    } catch (error) {
-      console.error("Erreur fetch message:", error);
-    }
-  };
-
-  const isConnected = useServerReload(fetchMessage);
+  useEffect(() => {
+    fetch("/api/hello")
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message))
+      .catch((err) => console.error(err));
+  }, []);
 
   return (
-    <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg text-white">
+    <div className="px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg text-white">
       <p className="text-md">
         <span className="font-bold">From "Hello.jsx"</span>: {message}
-        <span className="ml-3 text-2xl">{isConnected ? " ✅" : " ❌"}</span>
+      </p>
+      <p className="text-md">
+        <span className="font-bold">From "Hello.jsx"</span>: {message}
       </p>
     </div>
   );

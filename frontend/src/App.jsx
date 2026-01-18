@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import HelloWorld from "./Hello";
+import BackendWatcher from "./components/BackendWatcher";
 
 function App() {
   const [message, setMessage] = useState("Loading...");
@@ -12,6 +13,9 @@ function App() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-slate-50 text-slate-800">
+      {/* Watcher central pour le hot-reload backend */}
+      <BackendWatcher />
+
       <div className="max-w-4xl mx-auto p-8 text-center bg-white rounded-2xl shadow-sm">
         <h1 className="text-4xl font-bold mb-4 text-blue-600">
           Frontend React
