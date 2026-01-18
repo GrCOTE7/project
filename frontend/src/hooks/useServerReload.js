@@ -23,7 +23,9 @@ export const useServerReload = (onReload) => {
 
     const connectWebSocket = () => {
       try {
-        ws = new WebSocket("ws://localhost:8000/ws/reload");
+        const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        const wsUrl = `${protocol}//${window.location.host}/ws/reload`;
+        ws = new WebSocket(wsUrl);
 
         ws.onopen = () => {
           setIsConnected(true);

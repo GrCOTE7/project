@@ -6,7 +6,7 @@ const HelloWorld = () => {
 
   const fetchMessage = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/hello");
+      const response = await fetch("/api/hello");
       const data = await response.json();
       setMessage(data.message);
     } catch (error) {
