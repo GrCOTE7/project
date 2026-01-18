@@ -1,0 +1,4 @@
+# Cache et environnements
+__pycache__/
+*.pyc
+

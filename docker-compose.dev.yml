@@ -8,32 +8,28 @@
 # Pour débuguer: docker compose -f docker-compose.dev.yml build --no-cache --progress=plain
 
 services:
-  api:
+  backend:
     build: ./backend
-    container_name: fastapi_backend_dev
+    container_name: fastapi_backend
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    environment:
-      - ENV=development
-      - RELOAD=true
-      - PYTHONUNBUFFERED=1
     networks:
       - appnet
-    stdin_open: true
-    tty: true
-    command: uvicorn api:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app
 
-  streamlit:
+  frontend:
     build: ./frontend
-    container_name: streamlit_frontend
+    container_name: react_frontend
     ports:
-      - "8501:8501"
+      - "5173:5173"
+    environment:
+      - VITE_BACKEND_URL=http://backend:8000
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     depends_on:
-      - api
+      - backend
     networks:
       - appnet
 

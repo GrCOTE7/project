@@ -16,5 +16,4 @@ __pycache__/
 
 # Git et docs
 .git/
-README.md
 .env
