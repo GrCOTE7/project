@@ -1,11 +1,12 @@
-import { useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-/**
- * Ce composant surveille le backend et recharge la page entière
- * en cas de redémarrage du serveur.
- * À n'utiliser qu'en développement.
- */
-const BackendWatcher = () => {
+const BackendContext = createContext({ isConnected: false });
+
+export const useBackendStatus = () => useContext(BackendContext);
+
+export const BackendProvider = ({ children }) => {
+  const [isConnected, setIsConnected] = useState(false);
+
   useEffect(() => {
     let ws = null;
     let currentServerId = null;
@@ -17,12 +18,15 @@ const BackendWatcher = () => {
 
       ws = new WebSocket(wsUrl);
 
+      ws.onopen = () => {
+        setIsConnected(true);
+      };
+
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
 
         if (data.type === "connected") {
           if (currentServerId && currentServerId !== data.server_id) {
-            // Le serveur a redémarré (ID différent) -> Reload complet !
             window.location.reload();
           }
           currentServerId = data.server_id;
@@ -34,8 +38,12 @@ const BackendWatcher = () => {
       };
 
       ws.onclose = () => {
-        // En cas de coupure (le serveur descend), on tente de se reconnecter
+        setIsConnected(false);
         reconnectTimeout = setTimeout(connect, 1000);
+      };
+
+      ws.onerror = () => {
+        setIsConnected(false);
       };
     };
 
@@ -47,7 +55,9 @@ const BackendWatcher = () => {
     };
   }, []);
 
-  return null; // Ce composant est invisible
+  return (
+    <BackendContext.Provider value={{ isConnected }}>
+      {children}
+    </BackendContext.Provider>
+  );
 };
-
-export default BackendWatcher;
