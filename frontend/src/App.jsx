@@ -11,15 +11,13 @@ function App() {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="max-w-4xl mx-auto p-8 text-center">
+    <div className="flex items-center justify-center min-h-screen bg-slate-50 text-slate-800">
+      <div className="max-w-4xl mx-auto p-8 text-center bg-white rounded-2xl shadow-sm">
         <h1 className="text-4xl font-bold mb-4 text-blue-600">Frontend React</h1>
-        <p className="text-lg mb-8">
+        <p className="text-lg mb-8 text-slate-600">
           Backend says:{" "}
           <span className="font-semibold text-blue-500">{message}</span>
         </p>
-
-        <hr className="my-8" />
 
         <div className="text-lg">
           <HelloWorld />

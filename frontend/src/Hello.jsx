@@ -17,7 +17,7 @@ const HelloWorld = () => {
   const isConnected = useServerReload(fetchMessage);
 
   return (
-    <div className="p-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg text-white">
+    <div className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg shadow-lg text-white">
       <p className="text-md">
         <span className="font-bold">From "Hello.jsx"</span>: {message}
         <span className="ml-3 text-2xl">{isConnected ? " ✅" : " ❌"}</span>
